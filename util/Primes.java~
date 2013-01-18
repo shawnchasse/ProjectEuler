@@ -1,0 +1,112 @@
+public class Primes
+{
+    private static java.util.ArrayList<Long> primes = new java.util.ArrayList<primes>();
+    private static java.io.File primeFile = new java.io.File("primes.txt");
+    
+    public static void main( String args[])
+    {
+	long numPrimes = Long.parseLong(args[0]).longValue();
+	Primes myPrimer = new Primes();
+	
+	java.util.ArrayList<Long> primesLessThanX = myPrimer.getPrimeLessThanX(numPrimes);
+	System.out.println("Primes less than " + numPrimes + " = " + primesLessThanX.size();
+        int counter = 1;
+	for ( Long prime : primesLessThanX )
+	{
+	    System.out.println(counter + " " + prime );
+	    counter++;
+	}
+        primesLessThanX = myPrimer.getPrimeLessThanX(numPrimes * 2);
+	System.out.println("Primes less than " + (numPrimes *2) + " = " + primesLessThanX.size();
+	counter = 1;
+	for ( Long prime : primesLessThanX )
+	{
+	    System.out.println(counter + " " + prime );
+	    counter++;
+        }
+
+    }
+
+    private void readPrimeFile()
+    {
+	if ( primeFile.exists() && primes.size() == 0)
+	{
+	    java.io.FileReader fReader = new java.io.FileReader(primeFile);
+	    java.io.BufferedReader in = new java.io.BufferedReader(fReader);
+
+	    String curPrime = "";
+
+	    while ( (curPrime = in.readLine()) != null )
+	    {
+	        Long thePrime = Long.parseLong(curPrime);
+		primes.add(thePrime);
+		curMaxPrime = thePrime;
+	    }
+	    in.close();
+	}
+
+    }
+
+    private void writePrimeFile()
+    {
+	java.io.FileWriter fWriter = new java.io.FileWriter(primeFile);
+	java.io.BufferedWriter out = new java.io.BufferedWriter(fWriter);
+
+	for ( int i = 0; i < primes.size(); i++ )
+	{
+	    out.writeLine(primes.get(i).toString();
+	}
+	out.close();
+    }
+
+    public  java.util.ArrayList<Long> getPrimeLessThanX( long X )
+    {
+	Long curMaxPrime = 1;
+
+	readPrimeFile();
+
+	if ( primes.size() == 0 )
+	{
+	    primes.add(Long.valueOf(2));
+	    primes.add(Long.valueOf(3));
+	}
+	// okay we've read in the file, now we need to calculate any remaining primes
+	// initialize potential prime to a value 2 greater than our greatest prime
+	long potentialPrime = primes.get(primes.size()-1) + 2;
+	boolean addedPrimes = false;
+	// iterate until primes.size is >= X (to ensure that we have all primes < X, this will probably give us more primes than we need, but that is OK)
+	while ( primes.size() < X )
+	{    
+	    boolean isAPrime = true; // default to true.
+	    // now for each potential prime we need to iterate over all the existent primes to determine if the potential prime is a prime
+	    for ( int i = 0; i < primes.size(); i++ )
+	    {
+		// get the value at primes list and if aPrime > the sqrt of potential prime break since we can stop 
+		long aPrime = primes.get(i).longValue();
+	        if ( aPrime > Math.sqrt(potentialPrime) )
+		{
+		    break;
+		}
+		// okay so potential prime needs to be determined if it is a prime, if any prime is modulus of 0 of potential prime then potential prime is NOT a prime
+		if (potentialPrime % aPrime == 0 )
+		{
+		    isAPrime = false;
+		    break;
+		}
+	    }
+	    // if potential prime is a prime, then add it to the primes list
+	    if ( isAPrime )
+            {
+                System.out.println("Prime: " + potentialPrime);
+                prime.add(Long.valueOf(potentialPrime));
+		addedPrimes = true;
+            }
+	    potentialPrime += 2;
+	}
+	if ( addedPrimes )
+	{
+	    writePrimeFile();
+	}
+    }
+
+}
