@@ -18,6 +18,17 @@ public class Primer
 	Primer myPrimer = new Primer();
 	
 	java.util.ArrayList<Long> primesLessThanX = myPrimer.getPrimesLessThanX(numPrimes);
+
+	java.util.ArrayList<Long> primeFactors = myPrimer.calculatePrimeFactorsOfX(numPrimes);
+	long productOfPrimeFactors = 1;
+        for ( int i = 0; i < primeFactors.size()-1; i++ )
+	{
+	    long base = primesLessThanX.get(i);
+	    long power = primeFactors.get(i);
+	    System.out.println("Prime Factor: " + base + "^" + power);
+	    productOfPrimeFactors *= Math.pow(base,power);
+	}
+	System.out.println("The product of prime factors for " + numPrimes + " is " + productOfPrimeFactors);
     }
 
     private void readPrimeFile()
@@ -115,7 +126,55 @@ public class Primer
 	// we have enough primes now return the primes array
 	return primes;
     }
+    
+    public java.util.ArrayList<Long> calculatePrimeFactorsOfX( long X )
+    {
+	// this array will hold a list of prime factors starting at 
+	final java.util.ArrayList<Long> primeFactors = new java.util.ArrayList<Long>();
+	getPrimesLessThanX(X+1); // get all the primes that are less than X + 1 (need to increment by 1 incase X is prime itself, need it to be inclusive)
 
+	int primeIndex = 0;
+	long curVal  = primes.get(primeIndex).longValue(); // start at 2, 1 isn't really prime at all
+	while (curVal <= X )
+	{	    
+            if ( primeFactors.size() < primeIndex + 1 )
+	    {
+		primeFactors.add(primeIndex,new Long(0)); // initialize the current index
+	    }
+	    
+	    primeFactors.set(primeIndex,new Long( findPrimeFactor( curVal, X)));
+	    primeIndex++;
+	    curVal = primes.get(primeIndex).longValue();
+	}
+	return primeFactors;
+    }
+
+    // This recursive helper function divides the number by the prime (if evenly divisible) and then returns factor count
+    // each time the number or result is divisible by the prime for example:
+    // start with 2 as the prime and 16 as the number
+    //   16 / 2 = 8 (1 factor)
+    //   8  / 2 = 4 (1 factor)
+    //   4  / 2 = 2 (1 factor)
+    //   2  / 2 = 1 (1 last factor, recursion stops because result = 1)
+    private int findPrimeFactor( long prime, long number )
+    {
+	//System.out.println("Finding prime Factor for prime:number (" + prime + ":" + number + ")");
+	int factorCount = 0;
+	if ( number % prime == 0 )
+	{
+	    //System.out.println("Number % Prime == 0 (" + number + ":" + prime +")");
+	    long result = number / prime;
+	    if ( result != 1 )
+	    {	       
+		factorCount += findPrimeFactor(prime, result) + 1;
+	    }
+	    else
+	    {
+		factorCount += 1; // the case where we get number ==  prime
+	    }
+	}
+	return factorCount;
+    }
 
     public java.util.ArrayList<Long> getPrimesLessThanX( long X )
     {
