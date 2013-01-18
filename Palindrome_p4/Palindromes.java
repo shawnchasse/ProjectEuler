@@ -1,3 +1,5 @@
+package Palindrome_p4;
+
 class Palindromes 
 {
     public static void main (String args[])
