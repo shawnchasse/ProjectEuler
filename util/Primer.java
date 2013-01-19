@@ -5,6 +5,8 @@ public class Primer
     private static java.util.ArrayList<Long> primes = new java.util.ArrayList<Long>();
     private static java.io.File primeFile = new java.io.File("primes.txt");
 
+    private static int maxReadIndex = 0;
+
     public Primer()
     {
 	
@@ -29,6 +31,7 @@ public class Primer
 	    productOfPrimeFactors *= Math.pow(base,power);
 	}
 	System.out.println("The product of prime factors for " + numPrimes + " is " + productOfPrimeFactors);
+	System.out.println("The number of divisors for 28 is " + myPrimer.calculateNumDivisorsOfX(28) );
     }
 
     private void readPrimeFile()
@@ -51,6 +54,7 @@ public class Primer
 		    Long thePrime = Long.parseLong(curPrime);
 		    primes.add(thePrime);
 		    curMaxPrime = thePrime;
+		   
 	        }
 	    }
 	    catch ( java.io.IOException ioe )
@@ -70,8 +74,12 @@ public class Primer
 
 	    }
 	}
-	long stop = System.currentTimeMillis();
-	System.out.println("Read file took: " + ( stop - start) + " ms");
+	if ( primes.size() > 0 )
+	{
+	    maxReadIndex = primes.size(); // we want to append to file
+	}
+     	long stop = System.currentTimeMillis();
+	//System.out.println("Read file took: " + ( stop - start) + " ms");
     }
 
     private void writePrimeFile()
@@ -80,11 +88,12 @@ public class Primer
 	java.io.BufferedWriter out = null;
 	try
 	{    
-	    java.io.FileWriter fWriter = new java.io.FileWriter(primeFile);
+	    java.io.FileWriter fWriter = new java.io.FileWriter(primeFile, true);
 	    out = new java.io.BufferedWriter(fWriter);
 
-	    for ( int i = 0; i < primes.size(); i++ )
+	    for ( int i = maxReadIndex; i < primes.size(); i++ )
 	    {
+		//System.out.println("Writing " + primes.get(i));
 	        out.write(primes.get(i).toString());
 	        out.newLine();
 	    
@@ -107,7 +116,7 @@ public class Primer
 	    }
         }
 	long stop = System.currentTimeMillis();
-        System.out.println("Write file took: " + ( stop - start) + " ms");
+        //System.out.println("Write file took: " + ( stop - start) + " ms");
     }
 
     // This utility function aims to generate X primes, it will call getPrimesLessThanX until the
@@ -126,13 +135,40 @@ public class Primer
 	// we have enough primes now return the primes array
 	return primes;
     }
+
+    // the fastest way to calculate the number of divisors of a number (once you get large) is to get the prime factorization
+    // once you have the prime factorization for each prime factor that has a power of 1 or greater in the factor count
+    // you add 1 to each of the factors (accounting for the 0th power) and sum up all the factors. for example
+    // if the number is 16, the prime factorization of 16 is
+    // 2^4, 3^0, 5^0, 7^0, 11^0, 13^0
+    // taking the rule we iterate over the prime factors adding one to each factor power (in this case 2^4 becomes 2^5
+    // and then we simply take the power values and add them
+    // again: 5 * (well times 0, but we don't actually do that);
+    // and we know that the factors of 16 are: 1, 2, 4, 8, 16 (which is = 5)
+    public long calculateNumDivisorsOfX(long X)
+    {
+	long numDivisors = 1;
+	java.util.ArrayList<Long> primeFactorsOfX = calculatePrimeFactorsOfX(X);	
+	//	System.out.println("Prime factors of " + X + " are " + primeFactorsOfX.toString());
+	for ( int i = 0; i < primeFactorsOfX.size(); i++ )
+	{
+	    long curFactorCount = primeFactorsOfX.get(i);
+	    if ( curFactorCount > 0 )
+	    {
+		numDivisors *= curFactorCount + 1; // add in the 0th power
+	    }
+	}
+	//System.out.println("Num Divisors for " + X + " is " + numDivisors);
+	return numDivisors;
+    }
     
     public java.util.ArrayList<Long> calculatePrimeFactorsOfX( long X )
     {
 	// this array will hold a list of prime factors starting at 
 	final java.util.ArrayList<Long> primeFactors = new java.util.ArrayList<Long>();
-	getPrimesLessThanX(X+1); // get all the primes that are less than X + 1 (need to increment by 1 incase X is prime itself, need it to be inclusive)
-
+	//	System.out.println("Getting primes less than " + X * 2);
+	getPrimesLessThanX(X * 2); // get all the primes that are less than X * 2 (need to increment by 1 incase X is prime itself, need it to be inclusive)
+	//System.out.println("Calculating prime factor of " + X);
 	int primeIndex = 0;
 	long curVal  = primes.get(primeIndex).longValue(); // start at 2, 1 isn't really prime at all
 	while (curVal <= X )
@@ -162,7 +198,7 @@ public class Primer
 	int factorCount = 0;
 	if ( number % prime == 0 )
 	{
-	    //System.out.println("Number % Prime == 0 (" + number + ":" + prime +")");
+	    // System.out.println("Number % Prime == 0 (" + number + ":" + prime +")");
 	    long result = number / prime;
 	    if ( result != 1 )
 	    {	       
@@ -220,7 +256,7 @@ public class Primer
 	    potentialPrime += 2; // increment by 2 in order to skip all even numbers.
 	}
 	long stop = System.currentTimeMillis();
-	System.out.println("Calculated primes less than " + X + " in " + (stop - start) + "ms");
+	//System.out.println("Calculated primes less than " + X + " in " + (stop - start) + "ms");
 	if ( addedPrimes )
 	{
 	    writePrimeFile();
