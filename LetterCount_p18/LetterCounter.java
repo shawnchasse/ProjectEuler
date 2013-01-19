@@ -1,0 +1,100 @@
+package LetterCount_p18;
+
+public class LetterCounter
+{
+    private static String[] singleDigits = {"one","two","three","four","five","six","seven","eight","nine" };
+    private static String[] teensDigits = {"ten","eleven","twelve","thirteen","fourteen","fifteen","sixteen","seventeen","eighteen","nineteen"};
+    private static String[] tensDigits = {"twenty","thirty","forty","fifty","sixty","seventy","eighty","ninety"};
+    private static String hundred = "hundred";
+    private static String thousand = "thousand";
+
+    public static void main (String args[])
+    {
+	final int countTo = Integer.parseInt(args[0]);
+	int sumOfLetters = 0;
+	for ( int i = 1; i <= countTo ; i++ )
+	{
+	    String result = stringify(i);
+	    System.out.println(i + " = " + result + " with length " + result.length());
+	    sumOfLetters += result.length();
+	}
+	System.out.println("The sum of all letters of every number from 1 to " + countTo + " is " + sumOfLetters);
+    }
+
+    private static String stringify(int i)
+    {
+	StringBuilder bld = new StringBuilder();
+	if ( i < 10 )
+	{
+	    // simply append the value stored in singleDigits
+	    bld.append(singleDigits[i-1]);
+        }
+	else if ( i < 20 )
+        {
+	    // simply append the value stored in teensDigits
+	    bld.append(teensDigits[i-10]);
+        }
+	else if ( i < 100 )
+        {
+	    bld.append(deconstructTens(i));
+        }
+	else if ( i < 1000 )
+        {
+	    bld.append(deconstructHundreds(i));
+        }
+	else if ( i < 10000 )
+	{
+	    bld.append(deconstructThousands(i));
+	}
+	return bld.toString();
+    }
+
+    private static String deconstructTens(int value)
+    {
+	//System.out.println("working on " + value);
+        StringBuilder bld = new StringBuilder("");
+	String stringified = String.valueOf(value);
+	int tens = Integer.parseInt(stringified.substring(0,1));
+
+	bld.append(tensDigits[tens-2]);
+	int ones = Integer.parseInt(stringified.substring(1));
+	if ( ones != 0 )
+	{
+            bld.append(stringify(ones));
+        }
+	return bld.toString();
+    }
+
+    private static String deconstructHundreds(int value)
+    {
+	//System.out.println("working on " + value);
+	StringBuilder bld = new StringBuilder("");
+	String stringified = String.valueOf(value);
+	int hundreds = Integer.parseInt(stringified.substring(0,1));
+	bld.append(singleDigits[hundreds-1]).append(hundred);
+	int remainder = Integer.parseInt(stringified.substring(1));
+	if ( remainder != 0 )
+	{    
+	    bld.append("and");
+	    bld.append(stringify(remainder));
+	}
+	
+
+	return bld.toString();
+    }
+
+    private static String deconstructThousands(int value)
+    {
+	StringBuilder bld = new StringBuilder("");
+	String stringified = String.valueOf(value);
+	int thousands = Integer.parseInt(stringified.substring(0,1));
+	bld.append(singleDigits[thousands-1]).append(thousand);
+	int remainder  = Integer.parseInt(stringified.substring(1));
+	if ( remainder != 0 ) 
+	{
+	    bld.append(stringify(remainder));
+	}
+       return bld.toString();
+    }
+
+}
