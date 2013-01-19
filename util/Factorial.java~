@@ -1,0 +1,34 @@
+package util;
+
+public class Factorial
+{
+    private long curFactResult = 0;
+    private long curFactDigit = 0;
+    public Factorial()
+    {
+
+    }
+    
+    public static void main( String args[])
+    {
+	long factorial = Long.parseLong(args[0]);
+	
+	final Factorial factorialGenerator = new Factorial();
+	long result = factorialGenerator.getNFactorial(factorial);
+
+	System.out.println("The result of " + factorial + "! = " + result);
+    }
+    
+    public long getNFactorial(long N )
+    {
+	System.out.println("Calculating Factorial for: " + N");
+	long result = 1;
+	if ( N != 1 )
+	{
+	    result = N * getNFactorial(N-1);
+	}
+	return result;
+    }
+
+    
+}
