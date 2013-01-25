@@ -1,0 +1,23 @@
+package TruncPrimes_p37;
+
+import util.Primer;
+
+public class Truncator
+{
+   public static void main(String args[])
+   {
+      int numTruncatable = Integer.parseInt(args[0]);
+      int numFound = 0;
+      int sumTruncatable = 0;
+      
+      Primer pHelper = new Primer();
+      pHelper.getPrimesLesst
+
+      while ( numFound < numTruncatable )
+      {
+	 
+      }
+      
+   }
+   
+}
