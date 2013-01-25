@@ -1,0 +1,56 @@
+package NameScore_p22;
+
+public class NameScore
+{
+   public static void main(String args[])
+   {
+      java.util.TreeMap<String, Integer> nameMap = new java.util.TreeMap<String,Integer>();
+
+      java.io.File namesFile = new java.io.File("names.txt");
+      java.io.BufferedReader in = null;
+      String[] names = null;
+      try
+      {
+	 java.io.FileReader fReader = new java.io.FileReader(namesFile);
+	 in = new java.io.BufferedReader(fReader);
+	 
+	 String curLine = "";
+
+	 while ( (curLine = in.readLine()) != null )
+	 {
+	    names = curLine.split(",");
+	 }
+      }
+      catch ( java.io.IOException ioe )
+      {
+	 System.out.println("Error reading from input file names.txt: " + ioe.getMessage() );
+      }
+
+      for ( String aName : names )
+      {
+	 String theName = aName.substring(1,aName.length()-1);
+	 char[] chars = theName.toCharArray();
+	 int nameSum = 0;
+	 for ( char aChar : chars )
+	 {
+	    int charVal = aChar - 'A' + 1;
+	    System.out.println("Character " + aChar + " is worth " + charVal);
+	    nameSum += charVal;
+	 }
+	 System.out.println(theName + " is worth " + nameSum);
+	 nameMap.put(theName,Integer.valueOf(nameSum));
+      }
+      int namePos = 1;
+      int nameScoreTotal = 0;
+      for ( String key : nameMap.navigableKeySet() )
+      {
+	 
+	 int nameProduct = nameMap.get(key) * namePos;
+	 System.out.println(key + " is worth " + nameMap.get(key) + " and is position " + namePos + " for a result of " + nameProduct);
+	 nameScoreTotal += nameProduct;
+	 namePos++;
+      }
+      System.out.println("The sum of all the name products is " + nameScoreTotal );
+   }
+}
+   
