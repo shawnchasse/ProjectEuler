@@ -1,0 +1,11 @@
+package Abundant_p23;
+
+public class Abundants
+{
+   public static void main(String args[0])
+   {
+      int maxAbundant = 28123;
+      int arr[] = new int[28123];
+      
+   }
+}
