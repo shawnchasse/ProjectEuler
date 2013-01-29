@@ -1,0 +1,52 @@
+package LexiPermute_p24;
+
+public class Lexicographic
+{
+   private int numDigits = 0;
+   private int numPermutations = 0;
+   private int[] nums = {};				 
+   private int permutations = 0;
+   private int currentPermutation = 0;			      
+
+   public Lexicographic(int digits, int perms)
+   {
+      numDigits = digits;
+      numPermutations = perms;
+   }				     
+				     
+   public static void main(String args[])
+   {
+      int numDigits = Integer.parseInt(args[0]);
+      int numPermutations = Integer.parseInt(args[1]);
+      
+      Lexicographic lexi = new Lexicographic(numDigits, numPermutations);
+      lexi.calculateNthPermutation();					     
+   }
+
+   public void findPermutations(int head, int[] tail )
+   {
+      String headStr = tail[head];
+      String tailStr = "";
+      for( int 
+
+   }
+   
+   public void calculateNthPermutation()
+   {
+      permutations = 0;
+      // first generate an array of the numbers
+      nums = new int[numDigits];
+      for( int i = 0; i < numDigits; i++ )
+      {
+         nums[i] = i;
+      }
+
+      // now starting with each digit as the 'head' generate all permuations.
+      for ( int j = 0; j < numDigits; j++ )
+      {
+         int head = j;
+         findPermutations(head, nums );
+      }
+   }
+   
+}
