@@ -1,0 +1,33 @@
+package util;
+
+public class Fibonacci
+{
+   java.util.ArrayList<BigInteger> fibonaccis = new java.util.ArrayList<BigInteger>();
+   BigInteger prev1 = new BigInteger(1);
+   BigInteger prev2 = new BigInteger(0); 					    
+   int curIndex = 0;
+
+   public Fibonacci()
+   {
+
+   }
+
+   public static void main (String args[0])
+   {
+
+   }
+   
+   public void generateFibonacciNumbers(BigInteger maxVal)
+   {
+      BigInteger cur = new BigInteger(0);      
+      while ( cur < maxVal )
+      {
+	 cur = prev1.add(prev2);
+	 prev2 = prev1;
+	 prev1 = cur;
+	 
+	 fibonaccis.add(curIndex,cur);
+	 curIndex++;	 
+      }
+   }
+}
