@@ -1,0 +1,14 @@
+package Powers_p30;
+
+public class DigitPowers
+{
+   public static void main(String args[])
+   {
+      int nthPower = Integer.parseInt(args[0]);
+      
+      long min = ((Double)java.lang.Math.pow(10,nthPower-1)).longValue();
+      long max = ((Double)java.lang.Math.pow(10,nthPower)).longValue();
+
+      System.out.println("Using digits between " + min + " and " + max);
+   }
+}
