@@ -215,6 +215,7 @@ public class Primer
     public java.util.ArrayList<Long> getPrimesLessThanX( long X )
     {
 	readPrimeFile();
+	java.util.ArrayList<Long> primeList = new java.util.ArrayList<Long>();
 	long start = System.currentTimeMillis();
 	if ( primes.size() == 0 )
 	{
@@ -261,7 +262,14 @@ public class Primer
 	{
 	    writePrimeFile();
 	}
-	return primes;
+	for ( Long prime : primes )
+	{
+	   if ( prime < X )
+	   {
+	      primeList.add(prime);
+	   }
+	}
+	return primeList;
     }
 
 }
