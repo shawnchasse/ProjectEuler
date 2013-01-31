@@ -1,0 +1,47 @@
+package Coins;
+
+public class CoinSums
+{
+
+   private int[] coins = {200,100,50,20,10,5,2,1};
+   private java.util.ArrayList<java.util.ArrayList<Integer>> results = new java.util.ArrayList<java.util.ArrayList<Integer>>();
+
+   public CoinSums()
+   {
+
+   }															      
+
+   public static void main(String args[])
+   {
+      int targetPence = Integer.parseInt(args[0]);
+      CoinSums sumUp = new CoinSums();
+      
+      int numWays = sumUp.calcNumWaysToTarget(targetPence);
+      for( java.util.ArrayList<Integer> list : results )
+      {
+	 System.out.print("[");
+	 for ( int i = 0; i < list.size(); i++ )
+	 {
+	    System.out.print( list.get(i) + "x" + coins[i] + ", " );
+	 }
+	 System.out.print("]\n");
+      }
+      System.out.println("The number of ways to calculate " + targetPence + " from the coins 200p,100p,50p,20p,10p,5p,2p,1p is " + numWays);
+   }
+
+   public int calcNumWaysToTarget(int target)
+   {
+      // seed the initial array
+      int remainder = target;
+      java.util.ArrayList<Integer> curResult = new java.util.ArrayList<Integer>(8)
+      for ( int i = 0; i < coins.length; i++)
+      {
+	 while ( coins[i] <= remainder )
+	 {
+	    curResult.set(i,coins.get(i) + 1);
+	    remainder = target - coins[i];
+	 }	 	 
+      }
+      results.add(curResult);      
+   }
+}
