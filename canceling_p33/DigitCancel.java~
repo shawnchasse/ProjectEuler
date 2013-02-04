@@ -1,0 +1,15 @@
+package canceling_p33;
+
+public class DigitCancel
+{
+   public static void main( String args[] )
+   {
+      for ( int i = 10; i < 100; i++ )
+      {
+	 for ( int j = i + 1; j < 100; j++ )
+	 {
+	    System.out.println(i + "/" + j);
+	 }
+      }
+   }
+}
