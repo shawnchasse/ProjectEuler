@@ -1,0 +1,55 @@
+package Triangles_p39;
+
+public class IntegerRt
+{
+   public static void main ( String args[] )
+   {
+      int maxPerimeter = Integer.parseInt(args[0]);
+
+      int[] solutionCount = new int[maxPerimeter];
+      
+      // formulae for generating pythagorian triplets (primitive) is:
+      // a = m^2 - n^2
+      // b = 2mn
+      // c = m^2 + n^2
+      // for all m > n
+
+      int m = 2;
+      int n = 0;
+      while ( m < maxPerimeter ) // short circuit since sum of a + b + c cannot be greater than your max perimeter, and a + b > c for any abc, 
+      {
+	 n = m + 1;
+	 while ( n < maxPerimeter )
+	 {
+	    // to simplify the formula for getting the perimeter a + b + c we substitute the above formulae for a b and c
+	    // m^2 + n^2 + 2mn + m^2 - n^2 => simplifies as:	   
+	    // 2m(m + n)
+	    int perimeter = 2*m*(m+n);
+	    int multiplier = 1;
+	    while ( multiplier * perimeter < maxPerimeter )
+	    {
+	       solutionCount[perimeter*multiplier] += 1;
+	       multiplier++;
+	    }
+	    n++;
+	 }
+	 m++;
+      }
+
+      int maxPerimeterCount = 0;
+      int maxPerimeterVal = 0;
+      for ( int i = 0; i < solutionCount.length; i++ )
+      {
+	 if ( solutionCount[i] > maxPerimeterCount )
+	 {
+	    maxPerimeterCount = solutionCount[i];
+	    maxPerimeterVal = i;
+	 }
+	 System.out.println("Perimeter " + i + ":" + solutionCount[i] );
+      }
+      System.out.println("The perimeter less than " + maxPerimeter + " is " + maxPerimeterVal + " with " + maxPerimeterCount + " solutions");
+   }
+
+   
+   
+}
