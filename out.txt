@@ -1,0 +1,15 @@
+Getting primes less than 10000000
+Putting the primes into a hash set...
+Done putting primes into set, starting to identify truncatable primes
+Prime 23 is truncatable 
+Prime 37 is truncatable 
+Prime 53 is truncatable 
+Prime 73 is truncatable 
+Prime 313 is truncatable 
+Prime 317 is truncatable 
+Prime 373 is truncatable 
+Prime 797 is truncatable 
+Prime 3137 is truncatable 
+Prime 3797 is truncatable 
+Prime 739397 is truncatable 
+Found 11 primes that are truncatable, their combined sum is 748317
