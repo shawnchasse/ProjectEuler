@@ -68,13 +68,21 @@ public class TriWords
 	    wordSum += charVal;
 	 }
 	 System.out.println("Looking to see if " + theWord + " with value " + wordSum + " is a triangle word ");
-	 if ( isTriangleNumber(wordSum, triangleNums, 0, triangleNums.length - 1 ) )
+	 // for fun, utilize both the binary search of the array to lookup the triangle number and the equation to lookup whether it is a triangle number
+	 if ( isTriangleNumber(wordSum, triangleNums, 0, triangleNums.length - 1 ) && isTriangleNumberEquation(wordSum))
 	 {
 	    triangleWordCount++;
 	 }
 
       }
       System.out.println("The number of triangle words is " + triangleWordCount );      
+   }
+
+   // alternative method is to use the inverse (positive side) of the triangle number equation.
+   public static boolean isTriangleNumberEquation(int num )
+   {
+      int sqrt = (int) java.lang.Math.sqrt(num * 2 );
+      return sqrt * (sqrt +1 ) == num * 2;
    }
    
    // use a binary search to look up the triangle number since the triNums array is sorted.
